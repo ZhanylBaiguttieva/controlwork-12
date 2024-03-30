@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import config from "./config";
 import User from "./models/User";
+import Art from "./models/Art";
 
 
 const dropCollection = async (
@@ -40,6 +41,19 @@ const run = async () => {
             avatar: "fixtures/avatar.png"
         },
     );
+    await Art.create(
+        {
+            user: user1,
+            name: 'Magic forest',
+            photo: "fixtures/forest.png",
+        },
+        {
+            user: user2,
+            name: 'Lion',
+            photo: "fixtures/lion.png",
+        }
+    )
+
 
     await db.close();
 };
