@@ -1,5 +1,5 @@
 import {Router} from "express";
-import mongoose from "mongoose";
+import mongoose, {Types} from "mongoose";
 import User from "../models/User";
 import {imagesUpload} from "../multer";
 import {OAuth2Client} from "google-auth-library";
@@ -7,6 +7,22 @@ import config from "../config";
 
 const usersRouter = Router();
 const client = new OAuth2Client(config.google.clientId);
+
+usersRouter.get('/:id', async (req,res,next) => {
+   try {
+       let _id: Types.ObjectId;
+       try {
+           _id = new Types.ObjectId(req.params.id);
+       } catch {
+           return res.status(404).send({ error: 'Wrong ObjectId!' });
+       }
+       const user = await User.findById(_id);
+       
+       res.send(user);
+   } catch(e) {
+       next(e);
+   }
+});
 usersRouter.post('/', imagesUpload.single('avatar'), async (req, res, next) => {
     try {
         const userData = {

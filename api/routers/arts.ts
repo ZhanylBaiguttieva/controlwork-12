@@ -18,13 +18,14 @@ artsRouter.get('/',async (req, res,next) => {
         } else {
             filter = {}
         }
-        let artsArray = [];
+
         if(userId) {
-            artsArray = await Art.find(filter).populate('user', 'displayName');
+            const artsArray= await Art.find(filter).populate('user', 'displayName');
+            res.send(artsArray);
         } else {
-            artsArray = await Art.find().populate('user', 'displayName');
+            const arts = await Art.find().populate('user', 'displayName');
+            res.send(arts);
         }
-        res.send(artsArray);
 
     } catch (e) {
         return next(e);
@@ -35,13 +36,13 @@ artsRouter.post(
     '/',
     auth,
     permit( 'admin','user'),
-    imagesUpload.single('image'),
+    imagesUpload.single('photo'),
     async(req: RequestWithUser, res, next ) => {
         try {
             const artData = {
                 user: req.user?._id,
                 name: req.body.name,
-                image: req.file ? req.file.filename : null,
+                photo: req.file ? req.file.filename : null,
             };
             const art = new Art(artData);
             await art.save();
