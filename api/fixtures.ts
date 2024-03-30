@@ -51,7 +51,23 @@ const run = async () => {
             user: user2,
             name: 'Lion',
             photo: "fixtures/lion.png",
+        },
+        {
+            user: user1,
+            name: 'Heart',
+            photo: "fixtures/heart.png",
+        },
+        {
+            user: user2,
+            name: 'Beautiful waves',
+            photo: "fixtures/waves.png",
+        },
+        {
+            user: user2,
+            name: 'Lamp',
+            photo: "fixtures/lamp.png",
         }
+
     )
 
 
