@@ -6,7 +6,6 @@ import {
   CardMedia,
   Grid, Link,
   styled,
-  Typography
 } from '@mui/material';
 import { Art } from '../../../types';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks.ts';
@@ -41,14 +40,17 @@ const ArtPiece: React.FC<Props> = ({art})=> {
   if (art.photo) {
     cardImage = apiURL + '/' + art.photo;
   }
+
   return (
     <Grid item sm md={6} lg={4} m={1}>
       <Card sx={{ maxWidth: 345}}>
         <ImageCardMedia image={cardImage}/>
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {art.name}
-          </Typography>
+          <Grid alignItems="center">
+            <Link  variant="h5" component={RouterLink} to={'/arts/' + art._id}>
+              {art.name}
+            </Link>
+          </Grid>
           <Link  variant="h6" component={RouterLink} to={'/users/' + art.user?._id}>
             By {art.user.displayName}
           </Link>

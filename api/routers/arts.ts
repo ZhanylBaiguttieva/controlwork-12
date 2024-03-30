@@ -32,6 +32,22 @@ artsRouter.get('/',async (req, res,next) => {
     }
 });
 
+artsRouter.get('/:id', async (req, res, next) => {
+    try {
+        let _id: Types.ObjectId;
+        try {
+            _id = new Types.ObjectId(req.params.id);
+        } catch {
+            return res.status(404).send({ error: 'Wrong ObjectId!' });
+        }
+        const art = await Art.findById(_id);
+
+        res.send(art);
+    } catch (e) {
+        next(e);
+    }
+});
+
 artsRouter.post(
     '/',
     auth,

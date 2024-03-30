@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store.ts';
-import { createArt, deleteArt, fetchArts, fetchArtsByUser } from './artsThunk.ts';
+import { createArt, deleteArt, fetchArts, fetchArtsByUser, fetchOneArt } from './artsThunk.ts';
 import { Art } from '../../types';
 
 interface ArtsState {
   items: Art[];
+  item: Art | null;
+  fetchingOne: boolean;
   fetching: boolean;
   creating: boolean;
   deleteLoading: boolean;
@@ -12,6 +14,8 @@ interface ArtsState {
 
 const initialState: ArtsState = {
   items: [],
+  item: null,
+  fetchingOne: false,
   fetching: false,
   creating: false,
   deleteLoading: false,
@@ -31,6 +35,17 @@ export const artsSlice = createSlice({
     });
     builder.addCase(fetchArts.rejected, (state) => {
       state.fetching = false;
+    });
+
+    builder.addCase(fetchOneArt.pending, (state) => {
+      state.fetchingOne = true;
+    });
+    builder.addCase(fetchOneArt.fulfilled, (state, {payload: art}) => {
+      state.fetchingOne= false;
+      state.item = art;
+    });
+    builder.addCase(fetchOneArt.rejected, (state) => {
+      state.fetchingOne = false;
     });
 
     builder.addCase(fetchArtsByUser.pending, (state) => {
@@ -67,7 +82,8 @@ export const artsSlice = createSlice({
 });
 
 export const artsReducer = artsSlice.reducer;
-export const selectArts = (state: RootState) => state.arts.items;
 
+export const selectArts = (state: RootState) => state.arts.items;
+export const selectOneArt= (state: RootState) => state.arts.item;
 export const selectArtCreating = (state:RootState) => state.arts.creating;
 export const selectDeletingArt = (state: RootState) => state.arts.deleteLoading;

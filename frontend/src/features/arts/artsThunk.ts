@@ -17,6 +17,17 @@ export const fetchArtsByUser = createAsyncThunk<Art[], string>(
     return response.data;
   }
 );
+export const fetchOneArt = createAsyncThunk<Art| null, string>(
+  'arts/fetchOne',
+  async(artId) => {
+    const artResponse = await axiosApi.get<Art | null>('/arts/' +  artId);
+    if(!artResponse) {
+      return null;
+    }
+    return artResponse.data;
+  }
+);
+
 
 export const createArt = createAsyncThunk<void, ArtMutation>(
   'arts/create',
