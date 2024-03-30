@@ -41,8 +41,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
         </Button>
       </Stack>
       <Menu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={handleClose} keepMounted>
-        <MenuItem>Profile</MenuItem>
-        <MenuItem component={NavLink} to="/users/:id" color="inherit">My gallery</MenuItem>
+        <MenuItem component={NavLink} to={"/users/" + user._id} color="inherit">My gallery</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>
