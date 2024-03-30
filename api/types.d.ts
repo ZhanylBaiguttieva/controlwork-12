@@ -16,3 +16,8 @@ interface UserMethods {
 }
 
 type UserModel = Model<UserFields, unknown, UserMethods>;
+
+export interface ArtFields {
+    name: string;
+    image: string;
+}

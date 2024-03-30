@@ -17,7 +17,7 @@ const dropCollection = async (
 const run = async () => {
     await mongoose.connect(config.mongoose.db);
     const db = mongoose.connection;
-    const collections = ['users'];
+    const collections = ['users','arts'];
 
     for (const collectionName of collections) {
         await dropCollection(db, collectionName);

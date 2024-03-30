@@ -49,12 +49,12 @@ const ArtPiece: React.FC<Props> = ({art})=> {
           <Typography gutterBottom variant="h5" component="div">
             {art.name}
           </Typography>
-          <Link  variant="h6" component={RouterLink} to={'/users/' + art.user._id}>
+          <Link  variant="h6" component={RouterLink} to={'/users/' + art.user?._id}>
             By {art.user.displayName}
           </Link>
         </CardContent>
         <CardActions>
-          {user?.role === 'admin' && user?._id === art.user._id &&  (
+          {user?.role === 'admin' &&  (
             <Grid item>
               <LoadingButton
                 color="primary"
@@ -66,6 +66,18 @@ const ArtPiece: React.FC<Props> = ({art})=> {
               </LoadingButton>
             </Grid>
           )}
+          {user?.role === 'user' && user?._id === art.user?._id && (
+            <Grid item>
+              <LoadingButton
+                color="primary"
+                onClick={removeArt}
+                loading={isDeleting}
+                disabled={isDeleting}
+              >
+                Delete
+              </LoadingButton>
+            </Grid>
+           )}
         </CardActions>
       </Card>
     </Grid>

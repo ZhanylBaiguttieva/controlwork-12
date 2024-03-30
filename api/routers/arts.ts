@@ -4,14 +4,28 @@ import Art from "../models/Art";
 import {imagesUpload} from "../multer";
 import auth, {RequestWithUser} from "../middleware/auth";
 import permit from "../middleware/permit";
-import usersRouter from "./users";
+import {ArtFields} from "../types";
 
 const artsRouter = Router();
 
 artsRouter.get('/',async (req, res,next) => {
     try {
-        const arts = await Art.find().populate('user', 'displayName');
-        return res.send(arts);
+        const userId = req.query.userId;
+        let filter: FilterQuery<ArtFields> = {};
+
+        if(userId) {
+            filter = {user: req.query.userId};
+        } else {
+            filter = {}
+        }
+        let artsArray = [];
+        if(userId) {
+            artsArray = await Art.find(filter).populate('user', 'displayName');
+        } else {
+            artsArray = await Art.find().populate('user', 'displayName');
+        }
+        res.send(artsArray);
+
     } catch (e) {
         return next(e);
     }
