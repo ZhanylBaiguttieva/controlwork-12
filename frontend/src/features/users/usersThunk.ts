@@ -3,13 +3,25 @@ import {
   GlobalError,
   LoginMutation,
   RegisterMutation,
-  RegisterResponse,
+  RegisterResponse, User,
   ValidationError
 } from '../../types';
 import axiosApi from '../../axiosApi.ts';
 import { isAxiosError } from 'axios';
 import { RootState } from '../../app/store.ts';
 import { unSetUser } from './usersSlice.ts';
+
+export const getUser = createAsyncThunk<User | null,string>(
+  'users/get',
+  async(userId) => {
+    const result = await axiosApi.get('/users/' + userId);
+    if(!result) {
+      return null;
+    }
+    return result.data;
+  }
+);
+
 export  const register = createAsyncThunk<RegisterResponse,RegisterMutation,{rejectValue: ValidationError}>(
   'users/register',
   async (registerMutation, {rejectWithValue}) => {

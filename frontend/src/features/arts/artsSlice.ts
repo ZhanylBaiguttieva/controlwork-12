@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store.ts';
-import { createArt, deleteArt, fetchArts } from './artsThunk.ts';
+import { createArt, deleteArt, fetchArts, fetchArtsByUser } from './artsThunk.ts';
 import { Art } from '../../types';
 
 interface ArtsState {
@@ -30,6 +30,17 @@ export const artsSlice = createSlice({
       state.items = arts;
     });
     builder.addCase(fetchArts.rejected, (state) => {
+      state.fetching = false;
+    });
+
+    builder.addCase(fetchArtsByUser.pending, (state) => {
+      state.fetching = true;
+    });
+    builder.addCase(fetchArtsByUser.fulfilled, (state, {payload: arts}) => {
+      state.fetching = false;
+      state.items = arts;
+    });
+    builder.addCase(fetchArtsByUser.rejected, (state) => {
       state.fetching = false;
     });
 

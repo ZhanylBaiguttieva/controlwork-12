@@ -34,7 +34,7 @@ const ArtForm:React.FC<Props> = ({onSubmit}) => {
       setState(prevState => ({
         ...prevState, [name]: files[0]
       }));
-    }
+    };
   };
 
 

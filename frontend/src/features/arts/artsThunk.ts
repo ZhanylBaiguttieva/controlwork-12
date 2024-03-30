@@ -10,7 +10,7 @@ export const fetchArts = createAsyncThunk<Art[]>(
   }
 );
 
-export const fetchArtsByUser = createAsyncThunk<Art [], string>(
+export const fetchArtsByUser = createAsyncThunk<Art[], string>(
   'arts/fetchByUser',
   async(userId) => {
     const response = await axiosApi.get('/arts?userId=' + userId);

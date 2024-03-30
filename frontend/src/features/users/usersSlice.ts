@@ -1,9 +1,11 @@
 import { GlobalError, User, ValidationError } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { googleLogin, login, register } from './usersThunk.ts';
+import { getUser, googleLogin, login, register } from './usersThunk.ts';
 import { RootState } from '../../app/store.ts';
 interface UsersState  {
   user: User | null;
+  userOne: User | null;
+  fetching: boolean;
   registerLoading: boolean;
   registerError: ValidationError | null;
   loginLoading: boolean;
@@ -12,6 +14,8 @@ interface UsersState  {
 
 const initialState: UsersState = {
   user: null,
+  userOne: null,
+  fetching: false,
   registerLoading: false,
   registerError: null,
   loginLoading: false,
@@ -27,6 +31,18 @@ export const usersSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
+    builder.addCase(getUser.pending,(state) => {
+      state.fetching = true;
+
+    });
+    builder.addCase(getUser.fulfilled,(state, {payload: data}) => {
+      state.fetching = false;
+      state.userOne = data;
+    });
+    builder.addCase(getUser.rejected,(state) => {
+      state.fetching = false;
+    });
+
     builder.addCase(register.pending,(state) => {
       state.registerLoading = true;
       state.registerError = null;
@@ -71,6 +87,8 @@ export const {unSetUser} = usersSlice.actions;
 export const usersReducer = usersSlice.reducer;
 
 export const selectUser = (state: RootState) => state.users.user;
+
+export const selectOne = (state: RootState) => state.users.userOne;
 export const selectRegisterLoading = (state: RootState) => state.users.registerLoading;
 export const selectRegisterError = (state: RootState) => state.users.registerError;
 export const selectLoginLoading = (state: RootState) => state.users.loginLoading;
