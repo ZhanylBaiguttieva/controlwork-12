@@ -4,6 +4,7 @@ import Art from "../models/Art";
 import {imagesUpload} from "../multer";
 import auth, {RequestWithUser} from "../middleware/auth";
 import permit from "../middleware/permit";
+import usersRouter from "./users";
 
 const artsRouter = Router();
 
@@ -61,3 +62,5 @@ artsRouter.delete(
         }
     },
 );
+
+export default artsRouter;

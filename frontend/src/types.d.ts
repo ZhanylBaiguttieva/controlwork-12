@@ -38,3 +38,15 @@ export interface RegisterResponse {
   message: string;
   user: User;
 }
+
+export  interface Art {
+  _id: string;
+  user: User;
+  name: string;
+  photo: string;
+}
+
+export interface ArtMutation {
+  name: string;
+  photo: File | string | null;
+}
